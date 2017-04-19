@@ -11,11 +11,11 @@ RUN curl http://linux.kuki.cz/kuki.pgp | apt-key add - && \
 RUN apt-get update && apt-get install -y kuki xserver-xorg-video-intel pulseaudio libcurl3
 RUN apt-get install -fy
 
-RUN apt-get install -y openssh-server
+#RUN apt-get install -y openssh-server
 
 # Create OpenSSH privilege separation directory
-RUN mkdir /var/run/sshd
-RUN echo "\n\nCiphers +arcfour" >> /etc/ssh/sshd_config
+#RUN mkdir /var/run/sshd
+#RUN echo "\n\nCiphers +arcfour" >> /etc/ssh/sshd_config
 
 # Add the Chrome user that will run the browser
 RUN adduser --disabled-password --gecos "Kuki user" --uid 1000 kuki
@@ -35,20 +35,20 @@ ADD id_rsa.pub /home/kuki/.ssh/authorized_keys
 RUN chown -R kuki:kuki /home/kuki/.ssh
 
 # Set up the launch wrapper
-RUN echo 'export PULSE_SERVER="tcp:localhost:64713"' >> /usr/local/bin/kuki-forward
-RUN echo 'kuki' >> /usr/local/bin/kuki-forward
-#RUN echo 'google-chrome --no-sandbox' >> /usr/local/bin/chrome-pulseaudio-forward
-RUN chmod 755 /usr/local/bin/kuki-forward
+#RUN echo 'export PULSE_SERVER="tcp:localhost:64713"' >> /usr/local/bin/kuki-forward
+#RUN echo 'kuki' >> /usr/local/bin/kuki-forward
+#RUN chmod 755 /usr/local/bin/kuki-forward
 
 
 #COPY pulse-client.conf /etc/pulse/client.conf
 
 # Start SSH so we are ready to make a tunnel
-ENTRYPOINT ["/usr/sbin/sshd", "-D"]
+#ENTRYPOINT ["/usr/sbin/sshd", "-D"]
 
-#USER kuki
-#ENV HOME /home/kuki
+USER kuki
+ENV HOME /home/kuki
+ENV PULSE_SERVER tcp:localhost:4713
 
-# Expose the SSH port
-EXPOSE 22
-#CMD /usr/bin/kuki
+# Expose the Pulse Audio port to container
+EXPOSE 4713
+CMD /usr/bin/kuki
