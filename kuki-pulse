@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Extract host ip from /proc/net/route
+host_ip=$(printf "%d." $(echo $(awk '$2 == "00000000" {print $3}' /proc/net/route) | sed 's/../0x& /g' | tr ' ' '\n' | tac) | sed 's/\.$/\n/')
+
+export PULSE_SERVER="tcp:$host_ip:4713"
+
+# Run kuki application
+kuki
