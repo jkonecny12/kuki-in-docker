@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Kuki TV
+GenericName=Media Center
+Comment=Manage and view your media
+Exec=sudo kuki
+Icon=kuki
+Terminal=false
+Type=Application
+Categories=AudioVideo;Video;Player;TV;
+
