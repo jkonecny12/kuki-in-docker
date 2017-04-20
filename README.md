@@ -13,8 +13,11 @@ Run container
 -------------
 ``sudo docker run -ti --rm -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/$USER/.kuki:/home/kuki/.kuki --privileged kuki``
 
+or use `run_kuki.sh` script.
+
 
 To enable XServer it is required to have `DISPLAY` environment variable, `/tmp/.X11-unix` folder and `--privileged` inside of the container.
+To save Kuki settings it is required to have /home/$USER/.kuki folder inside of container.
 
 Enable PulseAudio
 -----------------
