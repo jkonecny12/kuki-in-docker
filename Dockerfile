@@ -3,15 +3,38 @@ FROM ubuntu:16.04
 # Tell debconf to run in non-interactive mode
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y curl
+RUN apt-get update
 
-# Install kuki tv
-RUN curl http://linux.kuki.cz/kuki.pgp | apt-key add - && \
+###############
+# GPU DRIVERS #
+###############
+# Use `ubuntu-drivers devices` in container first to get package recommendation.
+# The `ubuntu-drivers` command is inside of `ubuntu-drivers-common` package.
+
+# For intel GPU
+#RUN apt-get install -y xserver-xorg-video-intel
+
+# For nvidia use appropriate driver version
+RUN apt-get install -y nvidia-375
+
+#########
+# AUDIO #
+#########
+RUN apt-get update && apt-get install -y pulseaudio
+
+#######################
+# INSTALL APPLICATION #
+#######################
+RUN apt-get install -y curl libcurl3 && \
+    curl http://linux.kuki.cz/kuki.pgp | apt-key add - && \
     echo "deb http://linux.kuki.cz/ xenial kuki" > /etc/apt/sources.list.d/kuki.list
+RUN apt-get install -y kuki
 
-# Install pulseaudio xserver and missing dependency libcurl3
-RUN apt-get update && apt-get install -y kuki xserver-xorg-video-intel pulseaudio libcurl3
 RUN apt-get install -fy
+
+#################
+# SYSTEM SET-UP #
+#################
 
 # Add the Kuki user
 RUN adduser --disabled-password --gecos "Kuki user" --uid 1000 kuki
