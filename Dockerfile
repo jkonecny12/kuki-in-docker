@@ -14,8 +14,11 @@ RUN apt-get update
 # For intel GPU
 #RUN apt-get install -y xserver-xorg-video-intel
 
-# For nvidia use appropriate driver version
-RUN apt-get install -y nvidia-375
+## NVIDIA
+# nvidia-docker hooks
+LABEL com.nvidia.volumes.needed="nvidia_driver"
+ENV PATH /usr/local/nvidia/bin:${PATH}
+ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
 
 #########
 # AUDIO #
@@ -28,7 +31,7 @@ RUN apt-get update && apt-get install -y pulseaudio
 RUN apt-get install -y curl libcurl3 && \
     curl http://linux.kuki.cz/kuki.pgp | apt-key add - && \
     echo "deb http://linux.kuki.cz/ xenial kuki" > /etc/apt/sources.list.d/kuki.list
-RUN apt-get install -y kuki
+RUN apt-get update && apt-get install -y kuki
 
 RUN apt-get install -fy
 
