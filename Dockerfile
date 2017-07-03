@@ -2,8 +2,10 @@ FROM ubuntu:16.04
 
 # Tell debconf to run in non-interactive mode
 ENV DEBIAN_FRONTEND noninteractive
+ENV TZ Europe/Prague
 
-RUN apt-get update
+RUN apt-get update && apt-get install -y tzdata
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ###############
 # GPU DRIVERS #
