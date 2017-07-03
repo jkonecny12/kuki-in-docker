@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo docker build -t kuki .
+sudo docker build --no-cache -t kuki .
