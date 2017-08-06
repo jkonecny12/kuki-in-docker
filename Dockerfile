@@ -14,13 +14,13 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # The `ubuntu-drivers` command is inside of `ubuntu-drivers-common` package.
 
 # For intel GPU
-#RUN apt-get install -y xserver-xorg-video-intel
+RUN apt-get install -y xserver-xorg-video-intel
 
 ## NVIDIA
 # nvidia-docker hooks
-LABEL com.nvidia.volumes.needed="nvidia_driver"
-ENV PATH /usr/local/nvidia/bin:${PATH}
-ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
+#LABEL com.nvidia.volumes.needed="nvidia_driver"
+#ENV PATH /usr/local/nvidia/bin:${PATH}
+#ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
 
 #########
 # AUDIO #
